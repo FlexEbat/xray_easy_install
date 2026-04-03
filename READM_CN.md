@@ -6,7 +6,7 @@
 
 # 🚀 Xray Easy (VLESS REALITY + XHTTP)
 
-🌍 **语言:** [Chinese] (./README_CH.md)| [English](./README_ENG.md) | [Русский](./README.md)
+🌍 **语言:** [Русский](./README.md) | [English](./README_ENG.md) | [Chinese](./README_CH.md)
 
 -----
 
