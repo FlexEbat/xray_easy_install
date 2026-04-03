@@ -64,3 +64,7 @@ After the initial installation, running `./xray_easy.sh` again will open the **A
 * **Auto-Subscriptions:** If you choose Mode 3 during setup, the script creates a unique `.html` page for every user. You can send this link to your friends, and they can paste the Base64 Sub-URL directly into apps like v2rayNG, Nekobox, or Vultr.
 
 ---
+
+### ⚠️ Disclaimer
+
+This project is developed solely for educational and research purposes to study methods for minimizing digital footprints and ensuring user privacy online. The script is intended for testing methods to bypass interregional blocks and Deep Packet Inspection (DPI) systems and is provided on an "AS IS" basis. The author assumes no responsibility for any misuse of this tool, potential blocking of your resources, or violations of local legislation. You use this code at your own risk and assume full responsibility for all consequences of its operation.
