@@ -33,12 +33,12 @@
 Выполните эту команду от имени `root` на вашем сервере:
 
 ```bash
-wget -qO test.sh https://raw.githubusercontent.com/YOUR_GITHUB_NAME/YOUR_REPO/main/test.sh && chmod +x test.sh && sudo ./test.sh
+wget -qO xray_easy.sh [https://raw.githubusercontent.com/YOUR_GITHUB_NAME/YOUR_REPO/main/test.sh](https://raw.githubusercontent.com/FlexEbat/xray_easy_install/refs/heads/main/xray_easy.sh?token=GHSAT0AAAAAADZNF2Z6VADNHKDVQWHYWL2O2OP2APA) && chmod +x xray_easy.sh && sudo ./xray_easy.sh
 ```
 *(Не забудьте заменить ссылку на актуальный raw-адрес скрипта в вашем репозитории).*
 
 ## 🛠 Использование и Главное Меню
-После первичной установки, повторный запуск команды `./test.sh` откроет **Панель Управления**:
+После первичной установки, повторный запуск команды `./xray_easy.sh` откроет **Панель Управления**:
 
 ```text
 === Xray Easy ===
