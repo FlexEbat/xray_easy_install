@@ -35,7 +35,7 @@ wget -qO test.sh https://raw.githubusercontent.com/YOUR_GITHUB_NAME/YOUR_REPO/ma
 После первичной установки, повторный запуск команды `./test.sh` откроет **Панель Управления**:
 
 ```text
-=== Xray Pro Admin Panel ===
+=== Xray Easy ===
 1) Управление пользователями (Добавить, удалить, переименовать, показать QR)
 2) Управление маршрутами WARP (Настройка обхода для конкретных сайтов)
 3) Установка/Удаление Cloudflare WARP
