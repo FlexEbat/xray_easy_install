@@ -10,7 +10,7 @@ An all-in-one, highly automated bash script for deploying and managing a profess
 
 ## Why this script?
 
-Setting up a secure proxy from scratch requires configuring Xray, generating keys, dealing with SSL certificates, setting up routing for AI tools (like ChatGPT), and securing the server. This script does **all of that automatically** in a few minutes while providing an interactive, user-friendly terminal menu for future management.
+Setting up a secure proxy from scratch requires configuring Xray, generating keys, dealing with SSL certificates, and securing the server. This script does **all of that automatically** in a few minutes while providing an interactive, user-friendly terminal menu for future management.
 
 ## Key Features
 
