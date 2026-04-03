@@ -1,6 +1,6 @@
-# 🚀 Xray Easy (VLESS REALITY + XHTTP)
+# Xray Easy (VLESS REALITY + XHTTP)
 
-🌍 **Language:** [Русский](./README.md) | [English](./README_ENG.md) | [Chinese](./README_CN.md)
+ **Language:** [Русский](./README.md) | [English](./README_ENG.md) | [Chinese](./README_CN.md)
 
 ---
 
@@ -8,11 +8,11 @@
 
 An all-in-one, highly automated bash script for deploying and managing a professional-grade **Xray-core** VPN server. Designed to bypass deep packet inspection (DPI) and modern firewalls using the latest **VLESS-REALITY** and **XHTTP** protocols.
 
-## 🎯 Why this script?
+## Why this script?
 
 Setting up a secure proxy from scratch requires configuring Xray, generating keys, dealing with SSL certificates, setting up routing for AI tools (like ChatGPT), and securing the server. This script does **all of that automatically** in a few minutes while providing an interactive, user-friendly terminal menu for future management.
 
-## ✨ Key Features
+## Key Features
 
 * **Next-Gen Protocols:** Uses **VLESS-TCP-XTLS-Vision** and the brand-new **XHTTP** (which replaces the deprecated WebSocket).
 * **Three Installation Modes:**
@@ -25,13 +25,13 @@ Setting up a secure proxy from scratch requires configuring Xray, generating key
 * **Server Security:** Automatically configures UFW (Firewall), Fail2ban (SSH brute-force protection), BBR (TCP optimization), and safely changes your SSH port.
 * **Dynamic Configuration:** Easily change incoming ports, uTLS fingerprints (e.g., chrome, ios, randomized), and rename users on the fly.
 
-## 📋 Prerequisites
+## Prerequisites
 
 * A server running **Debian 11/12** or **Ubuntu 20.04/22.04/24.04**.
 * Root privileges.
 * *(Optional)* A registered domain name if you want to use the Web Panel feature.
 
-## 🚀 Installation
+## Installation
 
 Run the following command as `root` on your server:
 
@@ -39,7 +39,7 @@ Run the following command as `root` on your server:
 wget -qO test.sh https://raw.githubusercontent.com/FlexEbat/xray_easy_install/main/xray_easy.sh && chmod +x xray_easy.sh && sudo ./xray_easy.sh
 ```
 
-## 🛠 Usage & Main Menu
+## Usage & Main Menu
 
 After the initial installation, running `./xray_easy.sh` again will open the **Admin Panel**:
 
@@ -57,7 +57,7 @@ After the initial installation, running `./xray_easy.sh` again will open the **A
 0) Exit
 ```
 
-### 💡 Use Cases
+### Use Cases
 
 * **Unblocking ChatGPT/OpenAI:** Datacenter IPs are often blocked by AI services. Go to Menu `3` to install WARP, then Menu `2` to route `geosite:openai` through WARP. ChatGPT will work flawlessly!
 * **Changing Fingerprint:** If your ISP is throttling your connection, go to Menu `4` and change the uTLS fingerprint from `chrome` to `randomized` or `ios`.

@@ -1,12 +1,12 @@
-## ⚠️ 重要提示
+## 重要提示
 
 **注意：** 本项目及文档的原始语言为俄语。该分支（Fork）专门针对**俄语用户群体**进行优化和适配，部分内置资源或默认配置可能更符合俄罗斯网络环境。
 
 -----
 
-# 🚀 Xray Easy (VLESS REALITY + XHTTP)
+# Xray Easy (VLESS REALITY + XHTTP)
 
-🌍 **语言:** [Русский](./README.md) | [English](./README_ENG.md) | [Chinese](./README_CN.md)
+ **语言:** [Русский](./README.md) | [English](./README_ENG.md) | [Chinese](./README_CN.md)
 
 -----
 
@@ -14,11 +14,11 @@
 
 这是一个通用且高度自动化的 Bash 脚本，用于部署基于 **Xray-core** 的专业级 VPN 服务器。该脚本专为绕过深度数据包检测系统（如俄罗斯的 DPI ТСПУ）和现代防火墙而设计，采用了先进的 **VLESS-REALITY** 和 **XHTTP** 协议。
 
-## 🎯 为什么选择这个脚本？
+## 为什么选择这个脚本？
 
 手动配置安全的代理需要具备 Xray 配置、密钥生成、SSL 证书设置、复杂路由（以确保 ChatGPT 正常工作）以及服务器基础安全防护等知识。该脚本可以在几分钟内**全自动完成所有工作**，并为您提供一个方便的交互式菜单进行管理。
 
-## ✨ 主要特性
+## 主要特性
 
 * **现代协议：** 支持 **VLESS-TCP-XTLS-Vision** 和全新的 **XHTTP**（用于替代已开始被封锁的旧版 WebSocket）。
 * **三种安装模式：**
@@ -31,13 +31,13 @@
 * **服务器安全：** 自动配置 UFW（防火墙）、Fail2ban（防止 SSH 暴力破解）、启用 TCP BBR（网络加速）以及安全地更改默认 SSH 端口。
 * **灵活配置：** 支持随时更改连接端口（443, 8443）、uTLS 指纹（chrome, ios, randomized）和重命名用户。脚本会自动备份配置文件！
 
-## 📋 要求
+## 要求
 
 * 全新的 **Debian 11/12** 或 **Ubuntu 20.04/22.04/24.04** 系统。
 * 拥有 `root` 权限。
 * *(可选)* 如果要使用订阅 Web 面板功能，需要一个已注册的域名。
 
-## 🚀 安装
+## 安装
 
 在您的服务器上以 `root` 身份运行以下命令：
 
@@ -45,7 +45,7 @@
 wget -qO test.sh https://raw.githubusercontent.com/FlexEbat/xray_easy_install/main/xray_easy.sh && chmod +x xray_easy.sh && sudo ./xray_easy.sh
 ```
 
-## 🛠 使用方法与主菜单
+## 使用方法与主菜单
 
 完成首次安装后，再次运行 `./xray_easy.sh` 即可打开**控制面板**：
 
@@ -63,7 +63,7 @@ wget -qO test.sh https://raw.githubusercontent.com/FlexEbat/xray_easy_install/ma
 0) 退出
 ```
 
-### 💡 实用场景
+### 实用场景
 
 * **解锁 ChatGPT / Instagram：** 许多 VPS 的 IP 地址被 OpenAI 屏蔽或加载图片缓慢。进入菜单 `3` 安装 WARP，然后在菜单 `2` 中添加 `geosite:openai` 和 `geosite:meta` 路由。现在 Xray 将通过 Cloudflare 发送这些流量，一切都将恢复正常！
 * **更改指纹（伪装）：** 如果运营商对流量进行限速（Shaping），进入菜单 `4` 将 uTLS Fingerprint 从 `chrome` 更改为 `randomized` 或 `ios`。
@@ -71,6 +71,6 @@ wget -qO test.sh https://raw.githubusercontent.com/FlexEbat/xray_easy_install/ma
 
 -----
 
-### ⚠️ 免责声明
+### 免责声明
 
 本项目仅用于教育和网络测试目的。作者不对任何滥用此脚本的行为负责。
