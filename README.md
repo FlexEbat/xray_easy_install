@@ -63,7 +63,3 @@ wget -qO test.sh https://raw.githubusercontent.com/YOUR_GITHUB_NAME/YOUR_REPO/ma
 
 ### ⚠️ Disclaimer
 This project is for educational and network testing purposes only. The author is not responsible for any misuse of this script. / Данный проект создан исключительно в образовательных целях и для тестирования сетей. Автор не несет ответственности за ненадлежащее использование данного скрипта.
-
-
-### ⚠️ Disclaimer
-This project is for educational and network testing purposes only. The author is not responsible for any misuse of this script. / Данный проект создан исключительно в образовательных целях и для тестирования сетей. Автор не несет ответственности за ненадлежащее использование данного скрипта.
