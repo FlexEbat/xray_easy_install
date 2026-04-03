@@ -4,62 +4,66 @@
 
 ---
 
-# 🇬🇧 English Version
+# 🇷🇺 Русская версия
 
-An all-in-one, highly automated bash script for deploying and managing a professional-grade **Xray-core** VPN server. Designed to bypass deep packet inspection (DPI) and modern firewalls using the latest **VLESS-REALITY** and **XHTTP** protocols.
+Универсальный и максимально автоматизированный bash-скрипт для развертывания профессионального VPN-сервера на базе **Xray-core**. Создан для обхода систем глубокого анализа трафика (DPI ТСПУ в РФ) и современных файрволов с использованием передовых протоколов **VLESS-REALITY** и **XHTTP**.
 
-## 🎯 Why this script?
-Setting up a secure proxy from scratch requires configuring Xray, generating keys, dealing with SSL certificates, setting up routing for AI tools (like ChatGPT), and securing the server. This script does **all of that automatically** in a few minutes while providing an interactive, user-friendly terminal menu for future management.
+## 🎯 Зачем нужен этот скрипт?
+Ручная настройка безопасного прокси требует знаний конфигурации Xray, генерации ключей, настройки SSL-сертификатов, сложной маршрутизации (чтобы работал ChatGPT) и базовой защиты сервера. Этот скрипт делает **абсолютно всё автоматически** за пару минут, предоставляя вам удобное интерактивное меню для управления.
 
-## ✨ Key Features
-*   **Next-Gen Protocols:** Uses **VLESS-TCP-XTLS-Vision** and the brand-new **XHTTP** (which replaces the deprecated WebSocket).
-*   **Three Installation Modes:**
-    1.  **Manual REALITY:** Setup without a domain (stealth SNI spoofing).
-    2.  **RealiTLScanner:** Automatically scans and finds the best camouflage domain for your server's IP.
-    3.  **Custom Domain + Web Panel:** Installs Nginx, generates Let's Encrypt SSL, and hosts a hidden Web Panel where users can get their subscription links (Base64) and QR codes.
-*   **Traffic Statistics:** Built-in Xray API integration to monitor download/upload traffic (in MB/GB) per user.
-*   **Cloudflare WARP Integration:** Automatically installs WARP and lets you route specific traffic (e.g., OpenAI/ChatGPT, Meta, Google) through Cloudflare to bypass localized bans on datacenter IPs. Includes auto-reconnect cron jobs.
-*   **Terminal QR Codes:** Generate and display large, scannable QR codes for user configs directly in your SSH terminal!
-*   **Server Security:** Automatically configures UFW (Firewall), Fail2ban (SSH brute-force protection), BBR (TCP optimization), and safely changes your SSH port.
-*   **Dynamic Configuration:** Easily change incoming ports, uTLS fingerprints (e.g., chrome, ios, randomized), and rename users on the fly. 
+## ✨ Главные особенности
+*   **Современные протоколы:** Использует **VLESS-TCP-XTLS-Vision** и абсолютно новый **XHTTP** (который пришел на замену устаревшему WebSocket, который начал блокироваться).
+*   **Три режима установки:**
+    1.  **Ручной REALITY:** Быстрая установка без своего домена (маскировка под чужой сайт).
+    2.  **RealiTLScanner:** Скрипт сам просканирует сеть и найдет идеальный сайт-донор для маскировки вашего IP.
+    3.  **Свой домен + Веб-панель:** Скрипт установит Nginx, получит сертификаты Let's Encrypt и поднимет скрытую Веб-панель. В ней будут ссылки на подписки (Base64) и QR-коды для каждого юзера. На основной странице домена будет висеть сайт-заглушка (блог или портфолио).
+*   **Статистика трафика:** Встроенное API Xray для мониторинга того, сколько Мегабайт/Гигабайт скачал и отправил каждый отдельный пользователь.
+*   **Интеграция Cloudflare WARP:** Решает проблему блокировок IP-адресов хостингов! Устанавливает WARP и позволяет в пару кликов пустить трафик до *Apple, Meta, Google или OpenAI (ChatGPT)* через Cloudflare. Включает авто-реконнект (cron).
+*   **QR-коды прямо в терминале:** Скрипт умеет генерировать и выводить огромные, считываемые QR-коды для настройки прямо в черном окне SSH!
+*   **Безопасность сервера:** Автоматическая настройка UFW (Файрвол), Fail2ban (защита от брутфорса паролей SSH), включение TCP BBR (ускорение сети) и безопасная смена стандартного порта SSH.
+*   **Гибкая настройка:** Возможность на лету менять порты подключения (443, 8443), uTLS фингерпринты (chrome, ios, randomized) и переименовывать пользователей. Скрипт сам делает бэкапы конфигов!
 
-## 📋 Prerequisites
-*   A server running **Debian 11/12** or **Ubuntu 20.04/22.04/24.04**.
-*   Root privileges.
-*   *(Optional)* A registered domain name if you want to use the Web Panel feature.
+## 📋 Требования
+*   Чистый сервер на **Debian 11/12** или **Ubuntu 20.04/22.04/24.04**.
+*   Права пользователя `root`.
+*   *(Опционально)* Зарегистрированный домен, если вы хотите использовать функцию Веб-панели подписок.
 
-## 🚀 Installation
+## 🚀 Установка
 
-Run the following command as `root` on your server:
+Выполните эту команду от имени `root` на вашем сервере:
 
 ```bash
 wget -qO test.sh https://raw.githubusercontent.com/YOUR_GITHUB_NAME/YOUR_REPO/main/test.sh && chmod +x test.sh && sudo ./test.sh
 ```
-*(Note: Replace the URL with the actual raw link to your script on GitHub).*
+*(Не забудьте заменить ссылку на актуальный raw-адрес скрипта в вашем репозитории).*
 
-## 🛠 Usage & Main Menu
-After the initial installation, running `./test.sh` again will open the **Admin Panel**:
+## 🛠 Использование и Главное Меню
+После первичной установки, повторный запуск команды `./test.sh` откроет **Панель Управления**:
 
 ```text
 === Xray Easy ===
-1) Manage Users (Add, Remove, Rename, Show QR/Links)
-2) Manage WARP Routing (Route specific sites via WARP)
-3) Install/Uninstall Cloudflare WARP
-4) Configure Configs (Change Ports, uTLS Fingerprint)
-5) Update Xray-core
-6) Server Tests (Speedtest, Ping, Geoblock check)
-7) Check Services Status
-8) Uninstall Server completely
-9) Traffic Statistics
-0) Exit
+1) Управление пользователями (Добавить, удалить, переименовать, показать QR)
+2) Управление маршрутами WARP (Настройка обхода для конкретных сайтов)
+3) Установка/Удаление Cloudflare WARP
+4) Настройка конфигов (Смена портов и uTLS фингерпринта)
+5) Обновить Xray-core
+6) Тесты (Speedtest, Bench, проверка блокировок IP)
+7) Статус служб
+8) Удалить сервер
+9) Статистика трафика
+0) Выход
 ```
 
-### 💡 Use Cases
-*   **Unblocking ChatGPT/OpenAI:** Datacenter IPs are often blocked by AI services. Go to Menu `3` to install WARP, then Menu `2` to route `geosite:openai` through WARP. ChatGPT will work flawlessly!
-*   **Changing Fingerprint:** If your ISP is throttling your connection, go to Menu `4` and change the uTLS fingerprint from `chrome` to `randomized` or `ios`.
-*   **Auto-Subscriptions:** If you choose Mode 3 during setup, the script creates a unique `.html` page for every user. You can send this link to your friends, and they can paste the Base64 Sub-URL directly into apps like v2rayNG, Nekobox, or Vultr.
+### 💡 Полезные сценарии
+*   **Разблокировка ChatGPT / Instagram:** IP-адреса многих VPS заблокированы сервисом OpenAI или медленно грузят картинки. Зайдите в меню `3` и установите WARP. Затем в меню `2` добавьте маршруты `geosite:openai` и `geosite:meta`. Теперь Xray будет отправлять этот трафик через Cloudflare — всё будет летать!
+*   **Смена фингерпринта (Маскировки):** Если провайдер режет скорость (шейпинг), зайдите в меню `4` и поменяйте uTLS Fingerprint с `chrome` на `randomized` или `ios`.
+*   **Удобные подписки:** Если вы ставите сервер для друзей/семьи, выбирайте "Режим 3" при установке. Скрипт сгенерирует ссылки вида `https://ваш-домен:2053/секретный-хэш_sub`. Достаточно вставить эту ссылку в приложение (V2rayNG, Nekobox, Streisand, FoXray), и конфиги обновятся сами!
 
 ---
+
+### ⚠️ Disclaimer
+This project is for educational and network testing purposes only. The author is not responsible for any misuse of this script. / Данный проект создан исключительно в образовательных целях и для тестирования сетей. Автор не несет ответственности за ненадлежащее использование данного скрипта.
+
 
 ### ⚠️ Disclaimer
 This project is for educational and network testing purposes only. The author is not responsible for any misuse of this script. / Данный проект создан исключительно в образовательных целях и для тестирования сетей. Автор не несет ответственности за ненадлежащее использование данного скрипта.
