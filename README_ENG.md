@@ -1,6 +1,6 @@
 # 🚀 Xray Easy (VLESS REALITY + XHTTP)
 
-🌍 **Language:** [English](./README.md) | [Русский](./README_RUS.md)
+🌍 **Language:** [English](./README_ENG.md) | [Русский](./README.md)
 
 ---
 
