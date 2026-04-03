@@ -39,8 +39,6 @@ Run the following command as `root` on your server:
 wget -qO test.sh https://raw.githubusercontent.com/FlexEbat/xray_easy_install/main/xray_easy.sh && chmod +x xray_easy.sh && sudo ./xray_easy.sh
 ```
 
-*(Note: Replace the URL with the actual raw link to your script on GitHub).*
-
 ## 🛠 Usage & Main Menu
 
 After the initial installation, running `./xray_easy.sh` again will open the **Admin Panel**:

@@ -39,8 +39,6 @@
 wget -qO test.sh https://raw.githubusercontent.com/FlexEbat/xray_easy_install/main/xray_easy.sh && chmod +x xray_easy.sh && sudo ./xray_easy.sh
 ```
 
-*(Не забудьте заменить ссылку на актуальный raw-адрес скрипта в вашем репозитории).*
-
 ## 🛠 Использование и Главное Меню
 
 После первичной установки, повторный запуск команды `./xray_easy.sh` откроет **Панель Управления**:
