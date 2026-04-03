@@ -60,7 +60,7 @@ After the initial installation, running `./xray_easy.sh` again will open the **A
 ### Use Cases
 
 * **Unblocking ChatGPT/OpenAI:** Datacenter IPs are often blocked by AI services. Go to Menu `3` to install WARP, then Menu `2` to route `geosite:openai` through WARP. ChatGPT will work flawlessly!
-* **Changing Fingerprint:** If your ISP is throttling your connection, go to Menu `4` and change the uTLS fingerprint from `chrome` to `randomized` or `ios`.
+* **Changing Fingerprint:** If your ISP is throttling your connection, go to Menu `4` and change the uTLS fingerprint from `chrome` to `firefox`.
 * **Auto-Subscriptions:** If you choose Mode 3 during setup, the script creates a unique `.html` page for every user. You can send this link to your friends, and they can paste the Base64 Sub-URL directly into apps like v2rayNG, Nekobox, or Vultr.
 
 ---

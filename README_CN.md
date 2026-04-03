@@ -66,7 +66,7 @@ wget -qO test.sh https://raw.githubusercontent.com/FlexEbat/xray_easy_install/ma
 ### 实用场景
 
 * **解锁 ChatGPT / Instagram：** 许多 VPS 的 IP 地址被 OpenAI 屏蔽或加载图片缓慢。进入菜单 `3` 安装 WARP，然后在菜单 `2` 中添加 `geosite:openai` 和 `geosite:meta` 路由。现在 Xray 将通过 Cloudflare 发送这些流量，一切都将恢复正常！
-* **更改指纹（伪装）：** 如果运营商对流量进行限速（Shaping），进入菜单 `4` 将 uTLS Fingerprint 从 `chrome` 更改为 `randomized` 或 `ios`。
+* **更改指纹（伪装）：** 如果运营商对流量进行限速（Shaping），进入菜单 `4` 将 uTLS Fingerprint 从 `chrome` 更改为 `firefox`。
 * **便捷订阅：** 如果您是为朋友/家人设置服务器，请在安装时选择“模式 3”。脚本会生成类似 `https://your-domain:2053/secret-hash_sub` 的链接。只需将此链接粘贴到客户端软件（V2rayNG, Nekobox, Streisand, FoXray）中，配置即可自动更新！
 
 -----
