@@ -1,6 +1,6 @@
 # 🚀 Xray Easy (VLESS REALITY + XHTTP)
 
-🌍 **Language:** [English](#english-version) | [Русский](#русская-версия)
+🌍 **Language:** [English](./README.md) | [Русский](./README_RUS.md)
 
 ---
 
@@ -41,7 +41,7 @@ wget -qO test.sh https://raw.githubusercontent.com/YOUR_GITHUB_NAME/YOUR_REPO/ma
 After the initial installation, running `./test.sh` again will open the **Admin Panel**:
 
 ```text
-=== Xray Pro Admin Panel ===
+=== Xray Easy ===
 1) Manage Users (Add, Remove, Rename, Show QR/Links)
 2) Manage WARP Routing (Route specific sites via WARP)
 3) Install/Uninstall Cloudflare WARP
