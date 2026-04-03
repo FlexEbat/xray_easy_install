@@ -67,4 +67,6 @@ After the initial installation, running `./xray_easy.sh` again will open the **A
 
 ### ⚠️ Disclaimer
 
-This project is developed solely for educational and research purposes to study methods for minimizing digital footprints and ensuring user privacy online. The script is intended for testing methods to bypass interregional blocks and Deep Packet Inspection (DPI) systems and is provided on an "AS IS" basis. The author assumes no responsibility for any misuse of this tool, potential blocking of your resources, or violations of local legislation. You use this code at your own risk and assume full responsibility for all consequences of its operation.
+This project is developed solely for educational and research purposes to study methods for minimizing digital footprints and ensuring user privacy online. The script is intended for testing methods to bypass interregional blocks and Deep Packet Inspection (DPI) systems and is provided on an "AS IS" basis. The author assumes no responsibility for any misuse of this tool, potential blocking of your resources, or violations of local legislation. You use this code at your own risk and assume full responsibility for all consequences of its operation. The author does not encourage or endorse any illegal activities.
+
+*The author does not encourage or endorse any illegal activities.*
