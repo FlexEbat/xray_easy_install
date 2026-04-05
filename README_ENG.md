@@ -1,72 +1,73 @@
 # Xray Easy (VLESS REALITY + XHTTP)
 
- **Language:** [Русский](./README.md) | [English](./README_ENG.md) | [Chinese](./README_CN.md)
+**Language:** [Русский](./README.md) | [English](./README_ENG.md) | [Chinese](./README_CN.md)
 
 ---
 
 # 🇬🇧 English Version
 
-An all-in-one, highly automated bash script for deploying and managing a professional-grade **Xray-core** VPN server. Designed to bypass deep packet inspection (DPI) and modern firewalls using the latest **VLESS-REALITY** and **XHTTP** protocols.
+A universal and fully automated bash script for deploying a professional VPN server based on **Xray-core**. Designed to bypass Deep Packet Inspection (DPI) systems and modern firewalls using the advanced **VLESS-REALITY** and **XHTTP** protocols.
 
-## Why this script?
+## Why use this script?
 
-Setting up a secure proxy from scratch requires configuring Xray, generating keys, dealing with SSL certificates, and securing the server. This script does **all of that automatically** in a few minutes while providing an interactive, user-friendly terminal menu for future management.
+Manually configuring a secure proxy requires knowledge of Xray configuration, key generation, SSL certificate setup, complex routing, and basic server security. This script does **absolutely everything automatically** in a couple of minutes, providing you with a convenient interactive menu for management.
 
 ## Key Features
 
-* **Next-Gen Protocols:** Uses **VLESS-TCP-XTLS-Vision** and the brand-new **XHTTP** (which replaces the deprecated WebSocket).
+* **Modern Protocols:** Uses **VLESS-TCP-XTLS-Vision** and the brand new **XHTTP** (which replaces the deprecated WebSocket that is now easily blocked).
 * **Three Installation Modes:**
-    1. **Manual REALITY:** Setup without a domain (stealth SNI spoofing).
-    2. **RealiTLScanner:** Automatically scans and finds the best camouflage domain for your server's IP.
-    3. **Custom Domain + Web Panel:** Installs Nginx, generates Let's Encrypt SSL, and hosts a hidden Web Panel where users can get their subscription links (Base64) and QR codes.
-* **Traffic Statistics:** Built-in Xray API integration to monitor download/upload traffic (in MB/GB) per user.
-* **Cloudflare WARP Integration:** Automatically installs WARP and lets you route specific traffic (e.g., OpenAI/ChatGPT, Meta, Google) through Cloudflare to bypass localized bans on datacenter IPs. Includes auto-reconnect cron jobs.
-* **Terminal QR Codes:** Generate and display large, scannable QR codes for user configs directly in your SSH terminal!
-* **Server Security:** Automatically configures UFW (Firewall), Fail2ban (SSH brute-force protection), BBR (TCP optimization), and safely changes your SSH port.
-* **Dynamic Configuration:** Easily change incoming ports, uTLS fingerprints (e.g., chrome, ios, randomized), and rename users on the fly.
+    1. **Manual REALITY:** Quick setup without your own domain (masks as a third-party site).
+    2. **RealiTLScanner:** The script will automatically scan the network and find the perfect SNI donor site to mask your IP.
+    3. **Custom Domain + Web Panel:** Installs Nginx, obtains Let's Encrypt certificates, and creates a hidden Web Panel. It includes subscription links (Base64) and QR codes for each user. A fake site (blog or portfolio) will be placed on the main page to hide your proxy.
+* **Traffic Statistics:** Built-in Xray API to monitor how many Megabytes/Gigabytes each individual user has downloaded and uploaded.
+* **Cloudflare WARP Integration:** Solves the problem of hosting IP bans! Installs WARP and allows you to route traffic to *Apple, Meta, Google, or OpenAI (ChatGPT)* through Cloudflare in a couple of clicks. Includes auto-reconnect (cron).
+* **QR codes right in the terminal:** The script can generate and output huge, scannable QR codes for setup directly in the SSH console!
+* **Server Security:** Automated configuration of UFW (Firewall), Fail2ban (SSH brute-force protection), TCP BBR (network acceleration), and safely changes the default SSH port.
+* **Flexible Configuration:** Ability to change connection ports (443, 8443), uTLS fingerprints (chrome, ios, randomized) on the fly, and rename users. The script also handles configuration backups automatically!
 
-## Prerequisites
+## Requirements
 
-* A server running **Debian 11/12** or **Ubuntu 20.04/22.04/24.04**.
-* Root privileges.
-* *(Optional)* A registered domain name if you want to use the Web Panel feature.
+* A clean server running **Debian 11/12** or **Ubuntu 20.04/22.04/24.04**.
+* `root` privileges.
+* *(Optional)* A registered domain if you want to use the Web Panel subscription feature.
 
 ## Installation
 
-Run the following command as `root` on your server:
+Run this command as `root` on your server:
 
 ```bash
-wget -qO test.sh https://raw.githubusercontent.com/FlexEbat/xray_easy_install/main/xray_easy.sh && chmod +x xray_easy.sh && sudo ./xray_easy.sh
-```
+wget -qO xray_easy.sh https://raw.githubusercontent.com/FlexEbat/xray_easy_install/main/xray_easy.sh && chmod +x xray_easy.sh && ./xray_easy.sh
+Usage and Main Menu
 
-## Usage & Main Menu
+After the initial installation, running the ./xray_easy.sh command again will open the Admin Panel:
 
-After the initial installation, running `./xray_easy.sh` again will open the **Admin Panel**:
-
-```text
-=== Xray Easy ===
-1) Manage Users (Add, Remove, Rename, Show QR/Links)
-2) Manage WARP Routing (Route specific sites via WARP)
+code
+Text
+download
+content_copy
+expand_less
+=== Xray Easy Admin Panel ===
+1) Manage users
+2) Manage WARP routes
 3) Install/Uninstall Cloudflare WARP
-4) Configure Configs (Change Ports, uTLS Fingerprint)
+4) Config settings (Ports / FP)
 5) Update Xray-core
-6) Server Tests (Speedtest, Ping, Geoblock check)
-7) Check Services Status
-8) Uninstall Server completely
-9) Traffic Statistics
+6) Tests (Speedtest / Bench...)
+7) Service status
+8) Backup system
+9) Traffic statistics
+10) Uninstall xray
 0) Exit
-```
+Useful Scenarios
 
-### Use Cases
+Unblocking ChatGPT / Instagram: Many VPS IP addresses are blocked by OpenAI or load images slowly. Go to menu 3 and install WARP. Then in menu 2, add the geosite:openai and geosite:meta routes. Now Xray will route this traffic through Cloudflare — everything will fly!
 
-* **Unblocking ChatGPT/OpenAI:** Datacenter IPs are often blocked by AI services. Go to Menu `3` to install WARP, then Menu `2` to route `geosite:openai` through WARP. ChatGPT will work flawlessly!
-* **Changing Fingerprint:** If your ISP is throttling your connection, go to Menu `4` and change the uTLS fingerprint from `chrome` to `firefox`.
-* **Auto-Subscriptions:** If you choose Mode 3 during setup, the script creates a unique `.html` page for every user. You can send this link to your friends, and they can paste the Base64 Sub-URL directly into apps like v2rayNG, Nekobox, or Vultr.
+Changing the Fingerprint (Masking): If your provider is throttling your speed, go to menu 4 and change the uTLS Fingerprint from chrome to firefox or randomized.
 
----
+Easy Subscriptions: If you're setting up a server for friends/family, choose "Mode 3" during installation. The script will generate links like https://your-domain:2053/secret-hash_sub. Just paste this link into the client app (V2rayNG, Nekobox, Streisand, FoXray), and the configs will update automatically!
 
-### ⚠️ Disclaimer
+⚠️ Disclaimer
 
-This project is developed solely for educational and research purposes to study methods for minimizing digital footprints and ensuring user privacy online. The script is intended for testing methods to bypass interregional blocks and Deep Packet Inspection (DPI) systems and is provided on an "AS IS" basis. The author assumes no responsibility for any misuse of this tool, potential blocking of your resources, or violations of local legislation. You use this code at your own risk and assume full responsibility for all consequences of its operation. The author does not encourage or endorse any illegal activities.
+This project is developed solely for educational and research purposes to study methods of minimizing digital footprints and ensuring user privacy online. The script is intended for testing ways to bypass geo-blocking and Deep Packet Inspection (DPI) systems, and is provided "AS IS". The author is not responsible for any misuse of this tool, possible blocking of your resources, or violation of local laws. You use this code at your own risk, assuming full responsibility for all consequences of its use.
 
-*The author does not encourage or endorse any illegal activities.*
+The author does not encourage or endorse any illegal activity.
