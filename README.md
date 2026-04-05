@@ -1,3 +1,5 @@
+# Xray Easy (VLESS REALITY + XHTTP)
+
 **Language:** [Русский](./README.md) | [English](./README_ENG.md) | [Chinese](./README_CN.md)
 
 ---
