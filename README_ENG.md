@@ -60,7 +60,7 @@ After the initial installation, running the `./xray_easy.sh` command again will 
 
 ### Useful Scenarios
 
-* **Unblocking ChatGPT / Instagram:** Many VPS IP addresses are blocked by OpenAI or load images slowly. Go to menu `3` and install WARP. Then in menu `2`, add the `geosite:openai` and `geosite:meta` routes. Now Xray will route this traffic through Cloudflare — everything will fly!
+* **Bypassing IP blocks (ChatGPT / Instagram, etc.):** IP addresses of many VPS are blocked by various services or load content slowly. Using WARP might fix this problem (but it is not a 100% guarantee). Go to menu 3 and install WARP. Then in menu 2 add the required routes (for example, geosite:openai and geosite:meta). Now Xray will route this traffic through Cloudflare.
 * **Changing the Fingerprint (Masking):** If your provider is throttling your speed, go to menu `4` and change the uTLS Fingerprint from `chrome` to `firefox` or `randomized`.
 * **Easy Subscriptions:** If you're setting up a server for friends/family, choose "Mode 3" during installation. The script will generate links like `https://your-domain:2053/secret-hash_sub`. Just paste this link into the client app (V2rayNG, Nekobox, Streisand, FoXray), and the configs will update automatically!
 

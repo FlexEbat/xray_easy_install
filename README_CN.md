@@ -60,7 +60,7 @@ wget -qO xray_easy.sh https://raw.githubusercontent.com/FlexEbat/xray_easy_insta
 
 ### 实用场景
 
-* **解锁 ChatGPT / Instagram：** 许多 VPS IP 地址被 OpenAI 屏蔽或加载图片缓慢。进入菜单 `3` 安装 WARP。然后在菜单 `2` 中，添加 `geosite:openai` 和 `geosite:meta` 路由。现在 Xray 会将这些流量通过 Cloudflare 路由——速度会非常快！
+* **绕过 IP 封锁（ChatGPT / Instagram 等）：** 许多 VPS 的 IP 地址被各种服务屏蔽或加载内容缓慢。使用 WARP 可能会解决这个问题（但不能保证 100% 有效）。进入菜单 3 安装 WARP。然后在菜单 2 中添加所需的路由（例如 geosite:openai 和 geosite:meta）。现在 Xray 将通过 Cloudflare 路由这些流量。
 * **更改指纹（伪装）：** 如果您的服务商正在对您进行限速，请进入菜单 `4` 并将 uTLS 指纹从 `chrome` 更改为 `firefox` 或 `randomized`。
 * **便捷的订阅功能：** 如果您为朋友或家人设置服务器，请在安装时选择“模式 3”。脚本将生成类似 `https://your-domain:2053/secret-hash_sub` 的链接。只需将此链接粘贴到客户端应用程序 (V2rayNG, Nekobox, Streisand, FoXray) 中，配置就会自动更新！
 
