@@ -30,11 +30,6 @@ generate_xray_config() {
         WARP_RULE="{ \"type\": \"field\", \"domain\":[\"$WARP_JSON_ARRAY\"], \"outboundTag\": \"warp\" },"
     fi
 
-    ROUTE_RU_RULE=""
-    if [[ "$ROUTE_RU_DIRECT" == "true" ]]; then
-        ROUTE_RU_RULE="{ \"type\": \"field\", \"domain\":[\"geosite:ru\", \"domain:ru\", \"domain:su\", \"domain:рф\"], \"outboundTag\": \"direct\" },"
-    fi
-
     VISION_CLIENTS=""
     WS_CLIENTS=""
     SHORT_IDS=""
@@ -138,7 +133,6 @@ generate_xray_config() {
             { "type": "field", "domain":["geosite:category-ads-all"], "outboundTag": "block" },
             { "type": "field", "network": "udp", "port": 443, "outboundTag": "block" },
             $WARP_RULE
-            $ROUTE_RU_RULE
             { "type": "field", "outboundTag": "direct", "network": "tcp,udp" }
         ]
     }
@@ -292,7 +286,6 @@ install_core() {
     VISION_PORT="443"
     XHTTP_PORT="8443"
     FINGERPRINT="chrome"
-    ROUTE_RU_DIRECT="false"
 
     echo -e "\n${CYAN}Установка системных пакетов...${NC}"
     if [[ "$HAS_DOMAIN" == "true" ]]; then
@@ -381,7 +374,6 @@ FAKE_SITE_HTML="$FAKE_SITE_HTML"
 VISION_PORT="$VISION_PORT"
 XHTTP_PORT="$XHTTP_PORT"
 FINGERPRINT="$FINGERPRINT"
-ROUTE_RU_DIRECT="$ROUTE_RU_DIRECT"
 EOF
 
     A_UUID=$(/usr/local/bin/xray uuid | tr -d '\r\n')
@@ -545,8 +537,7 @@ manage_configs() {
         echo -e "\n${CYAN}=== Настройка конфигов ===${NC}"
         echo "1) Изменение портов подключения (Входящие)"
         echo "2) Изменение фингерпринта (fp)"
-        echo "3) Включить/Выключить маршрутизацию .RU сайтов мимо VPN"
-        echo "4) Пересоздать конфиги (Применить изменения)"
+        echo "3) Пересоздать конфиги (Применить изменения)"
         echo "0) Назад"
         read -p "Выбор: " C_CHOICE
 
@@ -587,19 +578,6 @@ manage_configs() {
                 fi
                 ;;
             3)
-                if [[ "$ROUTE_RU_DIRECT" == "true" ]]; then
-                    echo -e "${YELLOW}Маршрутизация RU-сайтов (Яндекс, ВК, Госуслуги) в обход VPN сейчас ВКЛЮЧЕНА.${NC}"
-                    read -p "Отключить её? (y/n): " RU_TOGGLE
-                    if [[ "$RU_TOGGLE" == "y" ]]; then ROUTE_RU_DIRECT="false"; fi
-                else
-                    echo -e "${YELLOW}Сайты РФ сейчас открываются через VPN (забаненные в мире сайты могут не работать).${NC}"
-                    read -p "Направлять RU-сайты напрямую (мимо VPN)? (y/n): " RU_TOGGLE
-                    if [[ "$RU_TOGGLE" == "y" ]]; then ROUTE_RU_DIRECT="true"; fi
-                fi
-                sed -i "s/^ROUTE_RU_DIRECT=.*/ROUTE_RU_DIRECT=\"$ROUTE_RU_DIRECT\"/" "$CONF_FILE"
-                echo -e "${GREEN}Настройка изменена! Нажмите 'Пересоздать конфиги'.${NC}"
-                ;;
-            4)
                 generate_xray_config
                 generate_user_pages
                 echo -e "${GREEN}Конфиги успешно пересозданы!${NC}"
@@ -833,10 +811,9 @@ while true; do
         if [[ -z "$VISION_PORT" ]]; then VISION_PORT="443"; echo 'VISION_PORT="443"' >> "$CONF_FILE"; fi
         if [[ -z "$XHTTP_PORT" ]]; then XHTTP_PORT="8443"; echo 'XHTTP_PORT="8443"' >> "$CONF_FILE"; fi
         if [[ -z "$FINGERPRINT" ]]; then FINGERPRINT="chrome"; echo 'FINGERPRINT="chrome"' >> "$CONF_FILE"; fi
-        if [[ -z "$ROUTE_RU_DIRECT" ]]; then ROUTE_RU_DIRECT="false"; echo 'ROUTE_RU_DIRECT="false"' >> "$CONF_FILE"; fi
     fi
 
-    echo -e "\n${YELLOW}=== Xray Pro Admin Panel ===${NC}"
+    echo -e "\n${YELLOW}=== Xray Easy TEST Admin Panel ===${NC}"
     if [[ ! -f "$CONF_FILE" ]]; then
         echo "1) Установить сервер"
         echo "0) Выход"
@@ -851,13 +828,13 @@ while true; do
         echo "1) Управление пользователями"
         echo "2) Управление маршрутами WARP"
         echo "3) Установка/Удаление Cloudflare WARP"
-        echo "4) Настройка конфигов (Порты / .RU сайты / FP)"
+        echo "4) Настройка конфигов (Порты / FP)"
         echo "5) Обновить Xray-core"
         echo "6) Тесты (Speedtest / Bench...)"
         echo "7) Статус служб"
         echo "8) Резервное копирование (Бэкап)"
         echo "9) Статистика трафика (Traffic)"
-        echo "10) Удалить сервер"
+        echo "10) Удалить xray"
         echo "0) Выход"
         read -p "Выбор: " MENU_CHOICE
 
