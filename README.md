@@ -44,7 +44,7 @@ wget -qO xray_easy.sh https://raw.githubusercontent.com/FlexEbat/xray_easy_insta
 После первичной установки, повторный запуск команды `./xray_easy.sh` откроет **Панель Управления**:
 
 ```text
-=== Xray Pro Admin Panel ===
+=== Xray Easy Admin Panel ===
 1) Управление пользователями
 2) Управление маршрутами WARP
 3) Установка/Удаление Cloudflare WARP

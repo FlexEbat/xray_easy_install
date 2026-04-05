@@ -1,3 +1,7 @@
+_⚠️ Special Note: This script was primarily developed for the Russian network environment and its specific blocking methods (TSPU). The English and Chinese documentation was generated using a translator, and the script's terminal interface is ONLY in Russian. These translations are provided out of respect and friendliness towards the international community._
+
+---
+
 # Xray Easy (VLESS REALITY + XHTTP)
 
 **Language:** [Русский](./README.md) | [English](./README_ENG.md) | [Chinese](./README_CN.md)
@@ -20,7 +24,7 @@ Manually configuring a secure proxy requires knowledge of Xray configuration, ke
     2. **RealiTLScanner:** The script will automatically scan the network and find the perfect SNI donor site to mask your IP.
     3. **Custom Domain + Web Panel:** Installs Nginx, obtains Let's Encrypt certificates, and creates a hidden Web Panel. It includes subscription links (Base64) and QR codes for each user. A fake site (blog or portfolio) will be placed on the main page to hide your proxy.
 * **Traffic Statistics:** Built-in Xray API to monitor how many Megabytes/Gigabytes each individual user has downloaded and uploaded.
-* **Cloudflare WARP Integration:** Solves the problem of hosting IP bans! Installs WARP and allows you to route traffic to *Apple, Meta, Google, or OpenAI (ChatGPT)* through Cloudflare in a couple of clicks. Includes auto-reconnect (cron).
+* **Cloudflare WARP Integration:** Solves the problem of hosting IP bans! Installs WARP and allows you to route traffic to _Apple, Meta, Google, or OpenAI (ChatGPT)_ through Cloudflare in a couple of clicks. Includes auto-reconnect (cron).
 * **QR codes right in the terminal:** The script can generate and output huge, scannable QR codes for setup directly in the SSH console!
 * **Server Security:** Automated configuration of UFW (Firewall), Fail2ban (SSH brute-force protection), TCP BBR (network acceleration), and safely changes the default SSH port.
 * **Flexible Configuration:** Ability to change connection ports (443, 8443), uTLS fingerprints (chrome, ios, randomized) on the fly, and rename users. The script also handles configuration backups automatically!
@@ -29,7 +33,7 @@ Manually configuring a secure proxy requires knowledge of Xray configuration, ke
 
 * A clean server running **Debian 11/12** or **Ubuntu 20.04/22.04/24.04**.
 * `root` privileges.
-* *(Optional)* A registered domain if you want to use the Web Panel subscription feature.
+* _(Optional)_ A registered domain if you want to use the Web Panel subscription feature.
 
 ## Installation
 
@@ -44,7 +48,7 @@ wget -qO xray_easy.sh https://raw.githubusercontent.com/FlexEbat/xray_easy_insta
 After the initial installation, running the `./xray_easy.sh` command again will open the **Admin Panel**:
 
 ```text
-=== Xray Pro Admin Panel ===
+=== Xray Easy Admin Panel ===
 1) Manage users
 2) Manage WARP routes
 3) Install/Uninstall Cloudflare WARP
@@ -70,6 +74,6 @@ After the initial installation, running the `./xray_easy.sh` command again will 
 
 This project is developed solely for educational and research purposes to study methods of minimizing digital footprints and ensuring user privacy online. The script is intended for testing ways to bypass geo-blocking and Deep Packet Inspection (DPI) systems, and is provided "AS IS". The author is not responsible for any misuse of this tool, possible blocking of your resources, or violation of local laws. You use this code at your own risk, assuming full responsibility for all consequences of its use.
 
-*The author does not encourage or endorse any illegal activity.*
+_The author does not encourage or endorse any illegal activity._
 
 ---

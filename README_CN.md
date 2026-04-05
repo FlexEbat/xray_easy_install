@@ -1,3 +1,7 @@
+_⚠️ 特别说明： 本脚本最初是专门针对俄罗斯的网络环境及其封锁技术（TSPU）开发的。英文和中文的自述文件（README）均通过翻译软件生成，且脚本的终端操作界面仅支持俄语。提供这些翻译版本是出于对国际用户的尊重与友好。_
+
+---
+
 # Xray Easy (VLESS REALITY + XHTTP)
 
 **Language:** [Русский](./README.md) | [English](./README_ENG.md) | [Chinese](./README_CN.md)
@@ -20,7 +24,7 @@
     2. **RealiTLScanner：** 脚本将自动扫描网络并找到完美的 SNI 伪装网站，以隐藏您的 IP。
     3. **自定义域名 + Web 面板：** 安装 Nginx，获取 Let's Encrypt 证书，并创建一个隐藏的 Web 面板。面板包含每个用户的订阅链接 (Base64) 和二维码。伪装网站（博客或作品集）将放置在主页上。
 * **流量统计：** 内置 Xray API，用于监控每个独立用户的下载和上传流量（MB/GB）。
-* **集成 Cloudflare WARP：** 解决 VPS IP 被禁用的问题！一键安装 WARP，并通过 Cloudflare 将流量路由到 *Apple, Meta, Google 或 OpenAI (ChatGPT)*。包含自动重连 (cron) 功能。
+* **集成 Cloudflare WARP：** 解决 VPS IP 被禁用的问题！一键安装 WARP，并通过 Cloudflare 将流量路由到 _Apple, Meta, Google 或 OpenAI (ChatGPT)_。包含自动重连 (cron) 功能。
 * **终端内的二维码：** 该脚本能够直接在 SSH 控制台中生成并输出巨大的、可扫描的配置二维码！
 * **服务器安全：** 自动配置 UFW（防火墙）、Fail2ban（防止 SSH 暴力破解）、TCP BBR（网络加速），并安全地更改默认 SSH 端口。
 * **灵活配置：** 支持即时更改连接端口（443，8443）、uTLS 指纹（chrome，ios，randomized）以及重命名用户。脚本还会自动进行配置备份！
@@ -29,7 +33,7 @@
 
 * 运行 **Debian 11/12** 或 **Ubuntu 20.04/22.04/24.04** 的干净服务器。
 * `root` 权限。
-* *（可选）* 如果您想使用 Web 面板订阅功能，需要一个已注册的域名。
+* _（可选）_ 如果您想使用 Web 面板订阅功能，需要一个已注册的域名。
 
 ## 安装
 
@@ -44,7 +48,7 @@ wget -qO xray_easy.sh https://raw.githubusercontent.com/FlexEbat/xray_easy_insta
 初始安装后，再次运行 `./xray_easy.sh` 命令将打开**管理面板**：
 
 ```text
-=== Xray Pro Admin Panel ===
+=== Xray Easy Admin Panel ===
 1) 用户管理
 2) WARP 路由管理
 3) 安装/卸载 Cloudflare WARP
@@ -70,6 +74,6 @@ wget -qO xray_easy.sh https://raw.githubusercontent.com/FlexEbat/xray_easy_insta
 
 本项目仅供教育和研究目的开发，用于研究最小化数字足迹和确保在线用户隐私的方法。本脚本旨在测试绕过地理屏蔽和深度包检测 (DPI) 系统的方法，并按“原样” (AS IS) 提供。作者对任何滥用此工具、可能导致的资源屏蔽或违反当地法律的行为不承担任何责任。您在使用此代码时需自行承担风险，并对其使用的所有后果承担全部责任。
 
-*作者不鼓励也不支持任何非法活动。*
+_作者不鼓励也不支持任何非法活动。_
 
 ---
