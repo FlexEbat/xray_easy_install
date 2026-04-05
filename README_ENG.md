@@ -37,16 +37,14 @@ Run this command as `root` on your server:
 
 ```bash
 wget -qO xray_easy.sh https://raw.githubusercontent.com/FlexEbat/xray_easy_install/main/xray_easy.sh && chmod +x xray_easy.sh && ./xray_easy.sh
-Usage and Main Menu
+```
 
-After the initial installation, running the ./xray_easy.sh command again will open the Admin Panel:
+## Usage and Main Menu
 
-code
-Text
-download
-content_copy
-expand_less
-=== Xray Easy Admin Panel ===
+After the initial installation, running the `./xray_easy.sh` command again will open the **Admin Panel**:
+
+```text
+=== Xray Pro Admin Panel ===
 1) Manage users
 2) Manage WARP routes
 3) Install/Uninstall Cloudflare WARP
@@ -58,16 +56,20 @@ expand_less
 9) Traffic statistics
 10) Uninstall xray
 0) Exit
-Useful Scenarios
+```
 
-Unblocking ChatGPT / Instagram: Many VPS IP addresses are blocked by OpenAI or load images slowly. Go to menu 3 and install WARP. Then in menu 2, add the geosite:openai and geosite:meta routes. Now Xray will route this traffic through Cloudflare — everything will fly!
+### Useful Scenarios
 
-Changing the Fingerprint (Masking): If your provider is throttling your speed, go to menu 4 and change the uTLS Fingerprint from chrome to firefox or randomized.
+* **Unblocking ChatGPT / Instagram:** Many VPS IP addresses are blocked by OpenAI or load images slowly. Go to menu `3` and install WARP. Then in menu `2`, add the `geosite:openai` and `geosite:meta` routes. Now Xray will route this traffic through Cloudflare — everything will fly!
+* **Changing the Fingerprint (Masking):** If your provider is throttling your speed, go to menu `4` and change the uTLS Fingerprint from `chrome` to `firefox` or `randomized`.
+* **Easy Subscriptions:** If you're setting up a server for friends/family, choose "Mode 3" during installation. The script will generate links like `https://your-domain:2053/secret-hash_sub`. Just paste this link into the client app (V2rayNG, Nekobox, Streisand, FoXray), and the configs will update automatically!
 
-Easy Subscriptions: If you're setting up a server for friends/family, choose "Mode 3" during installation. The script will generate links like https://your-domain:2053/secret-hash_sub. Just paste this link into the client app (V2rayNG, Nekobox, Streisand, FoXray), and the configs will update automatically!
+---
 
-⚠️ Disclaimer
+### ⚠️ Disclaimer
 
 This project is developed solely for educational and research purposes to study methods of minimizing digital footprints and ensuring user privacy online. The script is intended for testing ways to bypass geo-blocking and Deep Packet Inspection (DPI) systems, and is provided "AS IS". The author is not responsible for any misuse of this tool, possible blocking of your resources, or violation of local laws. You use this code at your own risk, assuming full responsibility for all consequences of its use.
 
-The author does not encourage or endorse any illegal activity.
+*The author does not encourage or endorse any illegal activity.*
+
+---

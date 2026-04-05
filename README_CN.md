@@ -37,16 +37,14 @@
 
 ```bash
 wget -qO xray_easy.sh https://raw.githubusercontent.com/FlexEbat/xray_easy_install/main/xray_easy.sh && chmod +x xray_easy.sh && ./xray_easy.sh
-使用方法和主菜单
+```
 
-初始安装后，再次运行 ./xray_easy.sh 命令将打开管理面板：
+## 使用方法和主菜单
 
-code
-Text
-download
-content_copy
-expand_less
-=== Xray Easy Admin Panel ===
+初始安装后，再次运行 `./xray_easy.sh` 命令将打开**管理面板**：
+
+```text
+=== Xray Pro Admin Panel ===
 1) 用户管理
 2) WARP 路由管理
 3) 安装/卸载 Cloudflare WARP
@@ -58,16 +56,20 @@ expand_less
 9) 流量统计 (Traffic)
 10) 卸载 xray
 0) 退出
-实用场景
+```
 
-解锁 ChatGPT / Instagram： 许多 VPS IP 地址被 OpenAI 屏蔽或加载图片缓慢。进入菜单 3 安装 WARP。然后在菜单 2 中，添加 geosite:openai 和 geosite:meta 路由。现在 Xray 会将这些流量通过 Cloudflare 路由——速度会非常快！
+### 实用场景
 
-更改指纹（伪装）： 如果您的服务商正在对您进行限速，请进入菜单 4 并将 uTLS 指纹从 chrome 更改为 firefox 或 randomized。
+* **解锁 ChatGPT / Instagram：** 许多 VPS IP 地址被 OpenAI 屏蔽或加载图片缓慢。进入菜单 `3` 安装 WARP。然后在菜单 `2` 中，添加 `geosite:openai` 和 `geosite:meta` 路由。现在 Xray 会将这些流量通过 Cloudflare 路由——速度会非常快！
+* **更改指纹（伪装）：** 如果您的服务商正在对您进行限速，请进入菜单 `4` 并将 uTLS 指纹从 `chrome` 更改为 `firefox` 或 `randomized`。
+* **便捷的订阅功能：** 如果您为朋友或家人设置服务器，请在安装时选择“模式 3”。脚本将生成类似 `https://your-domain:2053/secret-hash_sub` 的链接。只需将此链接粘贴到客户端应用程序 (V2rayNG, Nekobox, Streisand, FoXray) 中，配置就会自动更新！
 
-便捷的订阅功能： 如果您为朋友或家人设置服务器，请在安装时选择“模式 3”。脚本将生成类似 https://your-domain:2053/secret-hash_sub 的链接。只需将此链接粘贴到客户端应用程序 (V2rayNG, Nekobox, Streisand, FoXray) 中，配置就会自动更新！
+---
 
-⚠️ 免责声明
+### ⚠️ 免责声明
 
 本项目仅供教育和研究目的开发，用于研究最小化数字足迹和确保在线用户隐私的方法。本脚本旨在测试绕过地理屏蔽和深度包检测 (DPI) 系统的方法，并按“原样” (AS IS) 提供。作者对任何滥用此工具、可能导致的资源屏蔽或违反当地法律的行为不承担任何责任。您在使用此代码时需自行承担风险，并对其使用的所有后果承担全部责任。
 
-作者不鼓励也不支持任何非法活动。
+*作者不鼓励也不支持任何非法活动。*
+
+---
