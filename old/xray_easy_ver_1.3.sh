@@ -14,14 +14,6 @@ if [[ "$EUID" -ne 0 ]]; then
   exit 1
 fi
 
-if [ -f /etc/os-release ]; then
-    source /etc/os-release
-    if [[ "$ID" != "ubuntu" && "$ID" != "debian" ]]; then
-        echo -e "${RED}[ОШИБКА] Этот скрипт предназначен только для Ubuntu/Debian!${NC}"
-        exit 1
-    fi
-fi
-
 generate_xray_config() {
     WARP_JSON_ARRAY=""
     WARP_RULE=""
@@ -36,6 +28,7 @@ generate_xray_config() {
 
     while IFS=":" read -r U_NAME U_UUID U_SHORT U_SECRET || [[ -n "$U_NAME" ]]; do
         if [[ -z "$U_NAME" ]]; then continue; fi
+        # Добавлен параметр "email" для сбора статистики трафика
         VISION_CLIENTS+="$(printf '{"id":"%s","flow":"xtls-rprx-vision","email":"%s"},' "$U_UUID" "$U_NAME")"
         WS_CLIENTS+="$(printf '{"id":"%s","email":"%s"},' "$U_UUID" "$U_NAME")"
         SHORT_IDS+="$(printf '"%s",' "$U_SHORT")"
@@ -60,6 +53,7 @@ generate_xray_config() {
         SOCKET_INBOUND=""
     fi
 
+    # Бэкап старого конфига перед перезаписью
     if [[ -f /usr/local/etc/xray/config.json ]]; then
         cp /usr/local/etc/xray/config.json /usr/local/etc/xray/config.json.bak
     fi
@@ -131,7 +125,6 @@ generate_xray_config() {
             { "type": "field", "inboundTag": ["api"], "outboundTag": "api" },
             { "type": "field", "protocol": ["bittorrent"], "outboundTag": "block" },
             { "type": "field", "domain":["geosite:category-ads-all"], "outboundTag": "block" },
-            { "type": "field", "network": "udp", "port": 443, "outboundTag": "block" },
             $WARP_RULE
             { "type": "field", "outboundTag": "direct", "network": "tcp,udp" }
         ]
@@ -148,7 +141,7 @@ EOF
         echo -e "  [+] Перезапуск Xray..."
         systemctl restart xray
         if ! systemctl is-active --quiet xray; then
-            echo -e "${RED}  [!] Ошибка запуска Xray! Проверьте логи: journalctl -u xray -n 50 --no-pager${NC}"
+            echo -e "${RED}  [!] Ошибка запуска Xray! Проверьте логи: journalctl -u xray -e --no-pager${NC}"
         fi
     fi
 }
@@ -183,7 +176,6 @@ generate_user_pages() {
         .card { background: #1e1e1e; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align:center;}
         .btn { background: #bb86fc; color: #000; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; display: inline-block; text-decoration: none; box-sizing: border-box;}
         .btn-sub { background: #03dac6; }
-        .btn-import { background: #ff9800; color: #fff; }
         input.copy-input { width: 100%; padding: 10px; background: #2c2c2c; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box;}
         .qr-container { display: none; margin-top: 15px; text-align: center; background: #fff; padding: 15px; border-radius: 10px; width: fit-content; margin-inline: auto; }
         .qr-container.active { display: block; }
@@ -192,10 +184,9 @@ generate_user_pages() {
 <body>
     <h2>User: $U_NAME</h2>
     <div class="card">
-        <h3>🔄 Auto-Subscription</h3>
+        <h3>🔄 Auto-Subscription (Base64)</h3>
         <input type="text" class="copy-input" value="$SUB_URL" readonly onclick="this.select(); document.execCommand('copy'); alert('Copied!');">
-        <button class="btn btn-sub" onclick="navigator.clipboard.writeText('$SUB_URL'); alert('Подписка скопирована!');">📋 Копировать ссылку</button>
-        <a href="v2rayng://install-sub?url=$SUB_URL" class="btn btn-import">🚀 Импорт в клиент (One-Click)</a>
+        <button class="btn btn-sub" onclick="navigator.clipboard.writeText('$SUB_URL'); alert('Подписка скопирована!');">📋 Copy Base64 URL</button>
     </div>
     <script>function toggleQR(id, text) { let el = document.getElementById(id); if(el.innerHTML === "") { new QRCode(el, { text: text, width: 200, height: 200 }); } el.classList.toggle("active"); }</script>
     <div class="card"><h3>1. VLESS Vision REALITY</h3><button class="btn" onclick="navigator.clipboard.writeText('$LINK_VISION'); alert('Copied!');">📋 Copy</button><button class="btn" onclick="toggleQR('qr1', '$LINK_VISION')">📱 Show QR</button><div id="qr1" class="qr-container"></div></div>
@@ -273,8 +264,6 @@ install_core() {
     echo -e "\n${YELLOW}Защита SSH и Anti-Bruteforce${NC}"
     read -p "Введите НОВЫЙ порт для SSH (от 1000 до 65000, оставьте пустым чтобы оставить 22): " NEW_SSH_PORT
     if [[ -n "$NEW_SSH_PORT" ]]; then
-        echo -e "\n${RED}ВНИМАНИЕ! Если вы используете облачного провайдера (AWS, Oracle, Yandex Cloud), не забудьте открыть порт $NEW_SSH_PORT в их панели управления (Security Groups), иначе вы потеряете доступ к серверу!${NC}"
-        read -p "Понятно, продолжаем? (Enter)"
         mkdir -p /etc/ssh/sshd_config.d
         echo "Port $NEW_SSH_PORT" > /etc/ssh/sshd_config.d/99-custom-port.conf
         sed -i 's/^Port /#Port /g' /etc/ssh/sshd_config
@@ -296,15 +285,14 @@ install_core() {
 
     ufw allow $VISION_PORT/tcp >/dev/null 2>&1
     ufw allow $XHTTP_PORT/tcp >/dev/null 2>&1
-    ufw limit $SSH_PORT/tcp >/dev/null 2>&1
+    ufw allow $SSH_PORT/tcp >/dev/null 2>&1
     if [[ "$HAS_DOMAIN" == "true" ]]; then
         ufw allow 80/tcp >/dev/null 2>&1
         ufw allow 2053/tcp >/dev/null 2>&1
     fi
     ufw --force enable >/dev/null 2>&1
 
-    mkdir -p /etc/fail2ban/jail.d
-    cat <<EOF > /etc/fail2ban/jail.d/xray-sshd.conf
+    cat <<EOF > /etc/fail2ban/jail.local
 [sshd]
 enabled = true
 port = $SSH_PORT
@@ -338,13 +326,9 @@ EOF
     echo -e "\n${YELLOW}Настройка автообновления баз GeoIP и GeoSite...${NC}"
     cat << 'EOF' > /usr/local/bin/update_geo.sh
 #!/bin/bash
-wget -q -O /tmp/geoip.dat https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
-wget -q -O /tmp/geosite.dat https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat
-if [ -s /tmp/geoip.dat ] && [ -s /tmp/geosite.dat ]; then
-    mv /tmp/geoip.dat /usr/local/share/xray/geoip.dat
-    mv /tmp/geosite.dat /usr/local/share/xray/geosite.dat
-    if systemctl is-active --quiet xray; then systemctl restart xray; fi
-fi
+wget -q -O /usr/local/share/xray/geoip.dat https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
+wget -q -O /usr/local/share/xray/geosite.dat https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat
+if systemctl is-active --quiet xray; then systemctl restart xray; fi
 EOF
     chmod +x /usr/local/bin/update_geo.sh
     echo "0 4 * * 1 root /usr/local/bin/update_geo.sh" > /etc/cron.d/update_geo_xray
@@ -389,7 +373,7 @@ EOF
             exit 1
         fi
 
-        cat <<EOF > /etc/nginx/sites-available/xray_panel.conf
+        cat <<EOF > /etc/nginx/sites-available/default
 server { listen 80 default_server; listen 443 ssl default_server; ssl_certificate /etc/letsencrypt/live/$DOMAIN/fullchain.pem; ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem; return 444; }
 server { listen 80; server_name $DOMAIN; return 301 https://\$host\$request_uri; }
 server {
@@ -400,8 +384,6 @@ server {
     location $NGINX_WS_PATH { if (\$http_upgrade != "websocket") { return 404; } proxy_pass http://unix:/dev/shm/xray.sock; proxy_redirect off; proxy_http_version 1.1; proxy_set_header Upgrade \$http_upgrade; proxy_set_header Connection "upgrade"; proxy_set_header Host \$host; }
 }
 EOF
-        rm -f /etc/nginx/sites-enabled/default
-        ln -s /etc/nginx/sites-available/xray_panel.conf /etc/nginx/sites-enabled/
         systemctl start nginx && systemctl enable nginx
     fi
 
@@ -466,10 +448,11 @@ manage_users() {
                 read -p "Введите никнейм для удаления: " DEL_NAME
                 if [[ "$DEL_NAME" == "admin" ]]; then echo -e "${RED}Нельзя удалить admin!${NC}"; continue; fi
                 if grep -q "^${DEL_NAME}:" "$USERS_FILE"; then
+                    # Получаем секрет для удаления HTML файла
                     DEL_SECRET=$(grep "^${DEL_NAME}:" "$USERS_FILE" | cut -d':' -f4)
                     sed -i "/^${DEL_NAME}:/d" "$USERS_FILE"
                     if [[ -n "$DEL_SECRET" ]]; then
-                        rm -f /var/www/html/${DEL_SECRET}.html /var/www/html/${DEL_SECRET}_sub
+                        rm -f /var/www/html/${DEL_SECRET}*
                     fi
                     generate_xray_config
                     generate_user_pages
@@ -501,11 +484,11 @@ manage_users() {
                     continue
                 fi
                 IFS=":" read -r U_NAME U_UUID U_SHORT U_SECRET <<< "$(grep "^${QR_NICK}:" "$USERS_FILE")"
-
+                
                 LINK_VISION="vless://${U_UUID}@${SERVER_IP}:${VISION_PORT}?type=tcp&security=reality&pbk=${PUBLIC_KEY}&fp=${FINGERPRINT}&sni=${REALITY_DEST}&sid=${U_SHORT}&spx=%2F&flow=xtls-rprx-vision#${U_NAME}-Vision"
                 echo -e "\n${CYAN}=== QR-код для Vision (Порт ${VISION_PORT}) ===${NC}"
                 qrencode -t ANSIUTF8 "$LINK_VISION"
-
+                
                 LINK_XHTTP="vless://${U_UUID}@${SERVER_IP}:${XHTTP_PORT}?type=xhttp&security=reality&pbk=${PUBLIC_KEY}&fp=${FINGERPRINT}&sni=${REALITY_DEST}&sid=${U_SHORT}&path=${XHTTP_PATH}#${U_NAME}-XHTTP"
                 echo -e "\n${CYAN}=== QR-код для XHTTP (Порт ${XHTTP_PORT}) ===${NC}"
                 qrencode -t ANSIUTF8 "$LINK_XHTTP"
@@ -615,6 +598,7 @@ toggle_warp() {
         warp-cli --accept-tos connect >/dev/null 2>&1 || true
         echo -e "${GREEN}WARP установлен и запущен на порту 40000!${NC}"
 
+        # Создаем авто-реконнект для WARP
         cat << 'EOF' > /usr/local/bin/warp_check.sh
 #!/bin/bash
 if ! warp-cli --accept-tos status | grep -q "Connected"; then
@@ -635,7 +619,6 @@ manage_warp() {
     echo "3) Добавить Google (geosite:google)"
     echo "4) Добавить OpenAI/ChatGPT (geosite:openai)"
     echo "5) Свой домен (например: domain:example.com)"
-    echo "6) Сменить IP-адрес WARP (Перезапуск службы)"
     echo "0) Очистить все правила WARP"
     read -p "Выбор: " W_CHOICE
 
@@ -646,18 +629,6 @@ manage_warp() {
         3) NEW_RULE="geosite:google" ;;
         4) NEW_RULE="geosite:openai" ;;
         5) read -p "Введите правило: " NEW_RULE ;;
-        6)
-           if command -v warp-cli &> /dev/null; then
-               echo -e "${YELLOW}Переподключение WARP...${NC}"
-               warp-cli --accept-tos disconnect >/dev/null 2>&1
-               sleep 2
-               warp-cli --accept-tos connect >/dev/null 2>&1
-               echo -e "${GREEN}IP адрес WARP обновлен.${NC}"
-           else
-               echo -e "${RED}WARP не установлен!${NC}"
-           fi
-           return
-           ;;
         0) WARP_DOMAINS="" ;;
     esac
 
@@ -671,48 +642,37 @@ manage_warp() {
 }
 
 show_stats() {
-    while true; do
-        echo -e "\n${CYAN}=== Статистика трафика пользователей ===${NC}"
-        if ! systemctl is-active --quiet xray; then
-            echo -e "${RED}Ошибка: Xray не запущен!${NC}"
-            return
-        fi
+    echo -e "\n${CYAN}=== Статистика трафика пользователей ===${NC}"
+    if ! systemctl is-active --quiet xray; then
+        echo -e "${RED}Ошибка: Xray не запущен!${NC}"
+        return
+    fi
+    
+    STATS=$(/usr/local/bin/xray api statsquery -server=127.0.0.1:10085 2>/dev/null)
+    if [[ -z "$STATS" ]]; then
+        echo -e "${YELLOW}Нет данных. Если вы только что установили скрипт, трафика еще нет.${NC}"
+        return
+    fi
 
-        STATS=$(/usr/local/bin/xray api statsquery -server=127.0.0.1:10085 2>/dev/null)
-        if [[ -z "$STATS" ]]; then
-            echo -e "${YELLOW}Нет данных. Если вы только что установили скрипт, трафика еще нет.${NC}"
-        else
-            echo -e "${YELLOW}Пользователь       | Скачано      | Отправлено${NC}"
-            echo "---------------------------------------------------"
-
-            while IFS=":" read -r U_NAME _ || [[ -n "$U_NAME" ]]; do
-                if [[ -z "$U_NAME" ]]; then continue; fi
-
-                DOWN_B=$(echo "$STATS" | jq -r ".stat[] | select(.name == \"user>>>${U_NAME}>>>traffic>>>downlink\") | .value" 2>/dev/null)
-                UP_B=$(echo "$STATS" | jq -r ".stat[] | select(.name == \"user>>>${U_NAME}>>>traffic>>>uplink\") | .value" 2>/dev/null)
-
-                if [[ -z "$DOWN_B" || "$DOWN_B" == "null" ]]; then DOWN_B=0; fi
-                if [[ -z "$UP_B" || "$UP_B" == "null" ]]; then UP_B=0; fi
-
-                # Умный перевод в MB или GB
-                DOWN_DISP=$(awk "BEGIN { if ($DOWN_B > 1073741824) printf \"%.2f GB\", $DOWN_B/1073741824; else printf \"%.2f MB\", $DOWN_B/1048576 }")
-                UP_DISP=$(awk "BEGIN { if ($UP_B > 1073741824) printf \"%.2f GB\", $UP_B/1073741824; else printf \"%.2f MB\", $UP_B/1048576 }")
-
-                printf "%-18s | %-12s | %-12s\n" "${U_NAME}" "${DOWN_DISP}" "${UP_DISP}"
-            done < "$USERS_FILE"
-            echo "---------------------------------------------------"
-        fi
-
-        echo -e "\n1) Сбросить статистику (Обнулить трафик)"
-        echo "0) Назад"
-        read -p "Выбор: " STATS_CHOICE
-        if [[ "$STATS_CHOICE" == "1" ]]; then
-            systemctl restart xray
-            echo -e "${GREEN}Статистика успешно обнулена!${NC}"
-        else
-            break
-        fi
-    done
+    echo -e "${YELLOW}Пользователь       | Скачано (MB) | Отправлено (MB)${NC}"
+    echo "---------------------------------------------------"
+    
+    while IFS=":" read -r U_NAME _ || [[ -n "$U_NAME" ]]; do
+        if [[ -z "$U_NAME" ]]; then continue; fi
+        
+        DOWN_B=$(echo "$STATS" | jq -r ".stat[] | select(.name == \"user>>>${U_NAME}>>>traffic>>>downlink\") | .value" 2>/dev/null)
+        UP_B=$(echo "$STATS" | jq -r ".stat[] | select(.name == \"user>>>${U_NAME}>>>traffic>>>uplink\") | .value" 2>/dev/null)
+        
+        if [[ -z "$DOWN_B" || "$DOWN_B" == "null" ]]; then DOWN_B=0; fi
+        if [[ -z "$UP_B" || "$UP_B" == "null" ]]; then UP_B=0; fi
+        
+        DOWN_MB=$(awk "BEGIN {printf \"%.2f\", $DOWN_B/1048576}")
+        UP_MB=$(awk "BEGIN {printf \"%.2f\", $UP_B/1048576}")
+        
+        printf "%-18s | %-12s | %-15s\n" "${U_NAME}" "${DOWN_MB}" "${UP_MB}"
+    done < "$USERS_FILE"
+    echo "---------------------------------------------------"
+    read -p "Нажмите Enter для продолжения..."
 }
 
 run_tests() {
@@ -761,59 +721,32 @@ check_services() {
     read -p "Нажмите Enter для продолжения..."
 }
 
-backup_system() {
-    echo -e "\n${CYAN}=== Резервное копирование сервера ===${NC}"
-    BACKUP_NAME="/root/xray_backup_$(date +%F_%H-%M).tar.gz"
-
-    # Сбор данных
-    tar -czvf "$BACKUP_NAME" /etc/xray_admin.conf /etc/xray_users.conf /usr/local/etc/xray/config.json /var/www/html/ 2>/dev/null
-
-    if [[ "$HAS_DOMAIN" == "true" ]]; then
-        tar -rvf "$BACKUP_NAME" /etc/letsencrypt/ /etc/nginx/sites-available/xray_panel.conf 2>/dev/null
-    fi
-
-    echo -e "\n${GREEN}Бэкап успешно создан! Файл сохранен в:${NC} ${YELLOW}$BACKUP_NAME${NC}"
-    echo -e "Вы можете скачать его через SFTP/FileZilla для восстановления на другом сервере."
-    read -p "Нажмите Enter для продолжения..."
-}
-
 uninstall_xray() {
-    read -p "Вы УВЕРЕНЫ, что хотите удалить Xray и все настройки? (y/n): " CONFIRM
+    read -p "Удалить Xray и все настройки? (y/n): " CONFIRM
     if [[ "$CONFIRM" == "y" ]]; then
         bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ remove
         rm -f "$CONF_FILE" "$USERS_FILE" /usr/local/bin/update_geo.sh /etc/cron.d/update_geo_xray
-        rm -f /var/www/html/*.html /var/www/html/*_sub /var/www/html/index.html
-        rm -f /etc/fail2ban/jail.d/xray-sshd.conf
-        systemctl restart fail2ban 2>/dev/null
-
-        if command -v warp-cli &> /dev/null; then
+        rm -f /var/www/html/*.html /var/www/html/*_sub
+        if command -v warp-cli &> /dev/null; then 
             warp-cli --accept-tos disconnect 2>/dev/null || true
             apt purge -y -q cloudflare-warp
             rm -f /etc/apt/sources.list.d/cloudflare-client.list
             rm -f /usr/local/bin/warp_check.sh /etc/cron.d/warp_reconnect
         fi
-
-        read -p "Удалить Nginx и сертификаты (если устанавливались)? (y/n): " DEL_NGINX
-        if [[ "$DEL_NGINX" == "y" ]]; then
-            rm -f /etc/nginx/sites-available/xray_panel.conf /etc/nginx/sites-enabled/xray_panel.conf
-            systemctl restart nginx 2>/dev/null
-            # Полное удаление лучше не делать (могут быть другие сайты), удаляем только конфиг
-        fi
-
         echo -e "${GREEN}Удаление завершено.${NC}"
         exit 0
     fi
 }
 
 while true; do
-    if [[ -f "$CONF_FILE" ]]; then
+    if [[ -f "$CONF_FILE" ]]; then 
         source "$CONF_FILE"
         if [[ -z "$VISION_PORT" ]]; then VISION_PORT="443"; echo 'VISION_PORT="443"' >> "$CONF_FILE"; fi
         if [[ -z "$XHTTP_PORT" ]]; then XHTTP_PORT="8443"; echo 'XHTTP_PORT="8443"' >> "$CONF_FILE"; fi
         if [[ -z "$FINGERPRINT" ]]; then FINGERPRINT="chrome"; echo 'FINGERPRINT="chrome"' >> "$CONF_FILE"; fi
     fi
 
-    echo -e "\n${YELLOW}=== Xray Easy TEST Admin Panel ===${NC}"
+    echo -e "\n${YELLOW}=== Xray Pro Admin Panel ===${NC}"
     if [[ ! -f "$CONF_FILE" ]]; then
         echo "1) Установить сервер"
         echo "0) Выход"
@@ -828,13 +761,12 @@ while true; do
         echo "1) Управление пользователями"
         echo "2) Управление маршрутами WARP"
         echo "3) Установка/Удаление Cloudflare WARP"
-        echo "4) Настройка конфигов (Порты / FP)"
+        echo "4) Настройка конфигов"
         echo "5) Обновить Xray-core"
         echo "6) Тесты (Speedtest / Bench...)"
         echo "7) Статус служб"
-        echo "8) Резервное копирование (Бэкап)"
+        echo "8) Удалить сервер"
         echo "9) Статистика трафика (Traffic)"
-        echo "10) Удалить xray"
         echo "0) Выход"
         read -p "Выбор: " MENU_CHOICE
 
@@ -846,9 +778,8 @@ while true; do
             5) bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install; systemctl restart xray; echo -e "${GREEN}Обновлено!${NC}"; sleep 1;;
             6) run_tests ;;
             7) check_services ;;
-            8) backup_system ;;
+            8) uninstall_xray ;;
             9) show_stats ;;
-            10) uninstall_xray ;;
             0) exit 0 ;;
             *) echo "Неверный выбор" ; sleep 1 ;;
         esac
